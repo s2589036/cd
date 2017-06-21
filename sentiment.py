@@ -27,6 +27,7 @@ def sentimentbysents(posneg):
     
     
 def main():
+    #test
     sentimentbysents("pos")
     sentimentbysents("neg")
 main()
