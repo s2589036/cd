@@ -10,7 +10,7 @@ def sentimentbysents(posneg):
     for i in range(1,1001):
         name = posneg+str(i)
         file = open("movie_reviews/"+name+".txt")
-        sentdictionary = {"pos":0,"neg":0}#,"neu":0}
+        sentdictionary = {"pos":0,"neg":0}
         for line in file.readlines():
             #print(line)
             #print(analyzer.polarity_scores(line)["pos"])
@@ -25,9 +25,29 @@ def sentimentbysents(posneg):
         valuelist.append(sent_value)
     print([valuelist.count("pos"),valuelist.count("neg")])
     
+def sentimentbywords(posneg):
+    analyzer = SentimentIntensityAnalyzer()
+    valuelist = []
+    for i in range(1,1001):
+        name = posneg+str(i)
+        file = open("movie_reviews/"+name+".txt")
+        sentdictionary = {"pos":0,"neg":0}
+        for line in file.readlines():
+            for word in line.split():
+                sentdictionary["pos"] = sentdictionary["pos"] + analyzer.polarity_scores(word)["pos"]
+                sentdictionary["neg"] = sentdictionary["neg"] + analyzer.polarity_scores(word)["neg"]
+        
+
+        word_value = max(sentdictionary.items(), key=operator.itemgetter(1))[0]
+        valuelist.append(word_value)
+    print([valuelist.count("pos"),valuelist.count("neg")])
+
     
 def main():
     sentimentbysents("pos")
     sentimentbysents("neg")
-    #add
+    sentimentbywords("pos")
+    sentimentbywords("neg")
+
 main()
+
